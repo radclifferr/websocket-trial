@@ -1,23 +1,34 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
+import sampleData from "./sampleData.js";
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
 
+const app = express();
+const server = createServer(app);
 
-const httpServer = createServer();
-const io = new Server(httpServer, {
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const io = new Server(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
-    credentials:true
-  }
+    credentials: true,
+  },
 });
 
 io.on("connection", (socket) => {
+  socket.emit("connection");
+  //send dataset to client
+  socket.emit("data", sampleData)
+});
 
-  socket.emit("hello", "world");
 
-  socket.on("howdy", (arg) => {
-    console.log(arg)
-  })
-})
+app.get("/", (req, res) => {
+  res.sendfile("index.html");
+});
 
-httpServer.listen(3000, () => console.log("listening on 3000"));
+server.listen(3000, () => console.log("server listening on 3000"));
