@@ -8,7 +8,7 @@
   </head>
   <body>
     <button class="button">Click Me!!</button>
-    <script>
+    <!-- <script>
       const socket = new WebSocket("ws://localhost:3000");
       console.log(socket);
 
@@ -20,7 +20,19 @@
       console.log(button);
       document.querySelector("button").onclick = () => {
         socket.send("hello");
-      }
+      };
+    </script> -->
+
+
+    <script type="module">
+      import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
+
+      const socket = io("ws://localhost:3000");
+
+      socket.on("hello", (arg) =>{
+        console.log(arg)
+      })
+      socket.emit("howdy","stranger")
     </script>
   </body>
 </html>
