@@ -13,11 +13,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
+  // cors: {
+  //   origin: "*",
+  //   methods: ["GET", "POST"],
+  //   credentials: true,
+  // },
 });
 
 io.on("connection", (socket) => {
